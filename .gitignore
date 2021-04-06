@@ -1,0 +1,14 @@
+*.class
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Maven
+target/
+
+#log4j
+logs/
