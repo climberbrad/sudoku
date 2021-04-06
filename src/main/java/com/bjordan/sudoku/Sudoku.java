@@ -13,12 +13,24 @@ public class Sudoku {
     ingestCsv(pathToCsv);
   }
 
+  /**
+   * Run each validation method
+   *
+   * @return true of it is a completely correct Sudoku.
+   * @throws IllegalArgumentException
+   */
   public boolean isValidBoard() throws IllegalArgumentException {
     return validateRows()
         && validateCols()
         && validateBoxes();
   }
 
+  /**
+   * Check that each row is valid itself.
+   * If any row is invalid print the row and break.
+   *
+   * @return true if all rows are valid
+   */
   public boolean validateRows() {
     for (int x = 0; x < SIZE; x++) {
       if (!validMatrix(board[x])) {
@@ -29,6 +41,12 @@ public class Sudoku {
     return true;
   }
 
+  /**
+   * Check each column is valid.
+   * If any column is invalid then print the column and break.
+   *
+   * @return true if all columns are valid.
+   */
   public boolean validateCols() {
     int colValues[] = new int[SIZE];
     for (int y = 0; y < SIZE; y++) {
@@ -44,6 +62,12 @@ public class Sudoku {
     return true;
   }
 
+  /**
+   * Sudoku has nine boxes which all must be valid.
+   * Check each box. If any is invalid then print the box and break.
+   *
+   * @return true if all boxes are valid.
+   */
   public boolean validateBoxes() {
     return
         sumBox(0, 0)
@@ -75,6 +99,12 @@ public class Sudoku {
     return true;
   }
 
+  /**
+   * Read in a CSV with nine rows and nine columns of numbers 1-9 in any order.
+   *
+   * @param pathToCsv the data file.
+   * @throws IOException if values are outside of [1-9] or the file does not exist.
+   */
   private void ingestCsv(String pathToCsv) throws IOException {
     BufferedReader csvReader = new BufferedReader(new FileReader(pathToCsv));
 
@@ -96,6 +126,12 @@ public class Sudoku {
     csvReader.close();
   }
 
+  /**
+   * Validate an individual row, column or box.
+   * @param sudokuMatrix row/column/box
+   *
+   * @return true if it adds up to 45
+   */
   public static boolean validMatrix(int[] sudokuMatrix) {
     return Arrays.stream(sudokuMatrix).sum() == 45;
   }
@@ -106,17 +142,22 @@ public class Sudoku {
     }
   }
 
+  /**
+   * MAIN
+   * Take in the path to the csv file, parse it into a board and validate the board.
+   *
+   * @param args path to the Sudoku csv file.
+   * @throws IOException if the file does not exist.
+   */
   public static void main(String[] args) throws IOException {
-    // TODO: validate
-    String dataPath = args[0];
+    String csvPath = args[0];
 
-    Sudoku game = new Sudoku(dataPath);
+    Sudoku game = new Sudoku(csvPath);
     if (game.isValidBoard()) {
       System.out.println("Congratulations, you win!");
-      printBoard(game.board);
     } else {
       System.out.println("You lost :(");
-      printBoard(game.board);
     }
+    printBoard(game.board);
   }
 }
